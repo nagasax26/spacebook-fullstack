@@ -6,25 +6,30 @@ class EventsHandler {
     }
 
     registerAddPost() {
-        $('#addpost').on('click', () => {
+        var current = this;
+        $('#addpost').on('click', (e) => {
             let $input = $("#postText");
             if ($input.val() === "") {
                 alert("Please enter text!"); 
             } else {
-                this.postsRepository.addPost($input.val());
-                this.postsRenderer.renderPosts(this.postsRepository.posts);
+                this.postsRepository.addPost($input.val()).done(function(){
+                    current.postsRenderer.renderPosts(current.postsRepository.posts);
+                });
+                
                 $input.val("");
             }
             });        
     }
 
     registerRemovePost() {
+        var current = this;
         this.$posts.on('click', '.remove-post', (event) => {
-            let index = $(event.currentTarget).closest('.post').index();;
-            this.postsRepository.removePost(index);
-            this.postsRenderer.renderPosts(this.postsRepository.posts);
+           let index = $(event.currentTarget).closest('.post').index();
+           let id = $(event.currentTarget).closest('.post').data().id;
+            this.postsRepository.removePost(id, index).done(function(){
+                current.postsRenderer.renderPosts(current.postsRepository.posts);
+            });
           });
-
     }
 
     registerToggleComments() {

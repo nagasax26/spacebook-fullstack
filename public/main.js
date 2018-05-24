@@ -16,11 +16,14 @@ eventsHandler.registerRemoveComment();
 load data first Time
 ==========================================*/
 var loadPostsFromDatabase = function() {
+    var currentPosts = postsRepository;
+    var currentRenderer = postsRenderer;
     $.ajax({
         method: 'GET',
         url: '/posts',
         success: function (posts) {
-            postsRenderer.renderPosts(posts);
+            currentPosts.posts = posts;
+            currentRenderer.renderPosts(currentPosts.posts);
         }
     });
 }

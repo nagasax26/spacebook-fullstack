@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/swinston1000/spacebook-c2#readme",
   "dependencies": {
-    "body-parser": "*",
-    "bootstrap": "*",
-    "express": "*",
-    "express-handlebars": "*",
-    "jquery": "*",
-    "mongoose": "*"
+    "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "express": "^4.15.3",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
+    "mongoose": "^4.10.7"
   }
 }

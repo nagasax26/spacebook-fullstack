@@ -40,6 +40,7 @@ class EventsHandler {
     }
 
     registerAddComment() {
+        var current = this;
         this.$posts.on('click', '.add-comment', (event) => {
             let $comment = $(event.currentTarget).siblings('.comment');
             let $user = $(event.currentTarget).siblings('.name');
@@ -50,10 +51,12 @@ class EventsHandler {
             }
           
             let postIndex = $(event.currentTarget).closest('.post').index();
+            let postId = $(event.currentTarget).closest('.post').data().id;
             let newComment = { text: $comment.val(), user: $user.val() };
           
-            this.postsRepository.addComment(newComment, postIndex);
-            this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+            this.postsRepository.addComment(newComment, postIndex, postId).then(function(){
+                current.postsRenderer.renderComments(current.postsRepository.posts, postIndex);
+            });
             $comment.val("");
             $user.val("");
           });
@@ -61,12 +64,16 @@ class EventsHandler {
     }
 
     registerRemoveComment() {
+        var current = this;
         this.$posts.on('click', '.remove-comment', (event) => {
             let $commentsList = $(event.currentTarget).closest('.post').find('.comments-list');
             let postIndex = $(event.currentTarget).closest('.post').index();
+            let postId = $(event.currentTarget).closest('.post').data().id;
             let commentIndex = $(event.currentTarget).closest('.comment').index();
-            this.postsRepository.deleteComment(postIndex, commentIndex);
-            this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+            let commentId = $(event.currentTarget).closest('.comment').data().id;
+            this.postsRepository.deleteComment(postIndex, commentIndex, postId, commentId).then(function(){
+                current.postsRenderer.renderComments(current.postsRepository.posts, postIndex);
+            });
         });
     }
 }

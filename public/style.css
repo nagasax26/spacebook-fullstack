@@ -10,6 +10,14 @@
     margin: 5px 0 5px 10px;
 }
 
+.edit-post-container{
+    display: none;
+}
+
 .comments-container {
+    display: none;
+}
+
+.edit-comment-container{
     display: none;
 }

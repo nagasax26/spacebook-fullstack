@@ -21,6 +21,26 @@ class EventsHandler {
             });        
     }
 
+    registerEditPost() {
+        var current = this;
+        this.$posts.on('click', '.edit-post', (event) => {
+            let $post = $(event.currentTarget).siblings('.post');
+            if ($post.val() === "") {
+                alert("Please enter a post!");
+                return;
+              }
+            
+            let postIndex = $(event.currentTarget).closest('.post').index();
+            let postId = $(event.currentTarget).closest('.post').data().id;  
+           
+            this.postsRepository.editPost(postIndex, postId, $post.val()).then(function(){
+                current.postsRenderer.renderPosts(current.postsRepository.posts);
+            });
+            $post.val("");
+            
+        });
+    }
+
     registerRemovePost() {
         var current = this;
         this.$posts.on('click', '.remove-post', (event) => {
@@ -32,10 +52,24 @@ class EventsHandler {
           });
     }
 
+    registerToggleEditPost() {
+        this.$posts.on('click', '.toggle-edit-post', (event) => {
+            let $clickedPost = $(event.currentTarget).closest('.post');
+            $clickedPost.find('.edit-post-container').toggleClass('show');
+          });
+    }
+
     registerToggleComments() {
         this.$posts.on('click', '.toggle-comments', (event) => {
             let $clickedPost = $(event.currentTarget).closest('.post');
             $clickedPost.find('.comments-container').toggleClass('show');
+          });
+    }
+
+    registerToggleEditComments() {
+        this.$posts.on('click', '.toggle-edit-comment', (event) => {
+            let $clickedPost = $(event.currentTarget).closest('.comment');
+            $clickedPost.find('.edit-comment-container').toggleClass('show');
           });
     }
 
@@ -59,6 +93,29 @@ class EventsHandler {
             });
             $comment.val("");
             $user.val("");
+          });
+
+    }
+
+    registerEditComment() {
+        var current = this;
+        this.$posts.on('click', '.edit-comment', (event) => {
+            let $comment = $(event.currentTarget).siblings('.comment');
+          
+            if ($comment.val() === "") {
+              alert("Please enter a comment!");
+              return;
+            }
+          
+            let postIndex = $(event.currentTarget).closest('.post').index();
+            let postId = $(event.currentTarget).closest('.post').data().id;
+            let commentIndex = $(event.currentTarget).closest('.comment').index();
+            let commentId = $(event.currentTarget).closest('.comment').data().id;
+          
+            this.postsRepository.editComment(postIndex, commentIndex, postId, commentId, $comment.val()).then(function(){
+                current.postsRenderer.renderComments(current.postsRepository.posts, postIndex);
+            });
+            $comment.val("");
           });
 
     }

@@ -20,12 +20,26 @@
             });
         }
 
-        removePost(id, index) {
+        editPost(index, postId, postText) {
+            var current = this;
+            return $.ajax({
+                method: 'PUT',
+                url: `/posts/${postId}/edit`,
+                data: {
+                    postText: postText
+                },
+                success: function (post) {
+                    current.posts[index] = post;
+                }
+            });
+        }
+
+        removePost(postId, index) {
             // this.posts.splice(index, 1);
             var current = this;
             return $.ajax({
                 method: 'DELETE',
-                url: `/posts/${id}`,
+                url: `/posts/${postId}`,
                 success: function (res) {
                     if (res.ok) {
                         current.posts.splice(index, 1);
@@ -45,6 +59,20 @@
                 }
             });
             
+        };
+
+        editComment(postIndex, commentIndex, postId, commentId, comment) {
+            var current = this;
+            return $.ajax({
+                method: 'PUT',
+                url: `/posts/${postId}/comments/${commentId}/edit`,
+                data:{text: comment},
+                success: function (result) {
+                        if(result.ok){
+                            current.posts[postIndex].comments[commentIndex].text=comment;
+                        }
+                }
+            });
         };
 
         deleteComment(postIndex, commentIndex, postId, commentId) {

@@ -26,9 +26,12 @@
         </div>
     </div>
     <script id="post-template" type="text/x-handlebars-template">
-        <div class="post" data-id={{_id}}> {{text}} <a class="toggle-comments" href="#"> Comments </a>
+        <div class="post" data-id={{_id}}> {{text}} <a class="toggle-comments" href="#"> Comments </a> <a class="toggle-edit-post" href="#"> Edit Post </a>
             <button type="button" class="btn btn-danger remove-post">Remove Post</button>
-            <div>111</div>
+            <div class="edit-post-container">
+                <input class="form-control post" type="text" placeholder="Edit Post" value="{{text}}" />
+                <button type="button" class="btn btn-sm btn-primary edit-post">Edit Post</button>
+            </div>
             <div class="comments-container">
                 <ul class="comments-list"></ul>
                 <input class="form-control name" type="text" placeholder="Name" />
@@ -39,7 +42,11 @@
     </script>
     <script id="comment-template" type="text/x-handlebars-template">
         <li class="comment" data-id={{_id}}>{{text}} - {{user}}
-            <button type="button" class="btn btn-sm btn-danger remove-comment">Remove Comment</button>
+                <a class="toggle-edit-comment" href="#"> Edit Comment </a> <button type="button" class="btn btn-sm btn-danger remove-comment">Remove Comment</button>
+                <div class="edit-comment-container">
+                    <input class="form-control comment" type="text" placeholder="Edit Comment" value="{{text}}"/>
+                    <button type="button" class="btn btn-sm btn-primary edit-comment">Edit Comment</button>
+                </div>
         </li>
     </script>
     <script src="jquery/dist/jquery.js"></script>

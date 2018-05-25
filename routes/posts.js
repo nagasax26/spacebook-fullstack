@@ -32,6 +32,17 @@ Router.delete('/:id', function (req, res) {
     });
 });
 
+Router.put('/:postId/edit', function(req, res){
+    var postId = req.params.postId;
+    Post.findOne({_id: postId}, function(err, post){
+        post.text = req.body.postText;
+        post.save(function(err, post){
+            if(err) throw err;
+            res.send(post);
+        });
+    });
+});
+
 Router.post('/:postId/comments', function (req, res) {
     var postId = req.params.postId;
     Post.findOne({
@@ -60,6 +71,16 @@ Router.delete('/:postId/comments/:commentId', function (req, res) {
             }
         }
     }, function (err, result) {
+        if (err) throw err;
+        res.send(result);
+    });
+});
+
+Router.put('/:postId/comments/:commentId/edit', function (req, res) {
+    var postId = req.params.postId;
+    var commentId = req.params.commentId;
+    Post.update({ _id: postId, "comments._id":commentId},{ "comments.$.text":req.body.text }
+    , function (err, result) {
         if (err) throw err;
         res.send(result);
     });
